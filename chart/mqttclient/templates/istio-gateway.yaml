@@ -1,0 +1,41 @@
+{{ if .Values.istio.gateway.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: prometeo-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prometeo
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - prometeo-gateway
+  http:
+  - match:
+    - uri:
+        exact: /
+    - uri:
+        prefix: /coreDecision
+    - uri:
+        prefix: /swaggerui
+    - uri:
+        prefix: /swagger.json
+    route:
+    - destination:
+        host: mqttclient
+        port:
+          number: {{ .Values.mqttclient.service.servicePort}}
+{{ end }}
