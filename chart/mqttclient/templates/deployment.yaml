@@ -1,29 +1,29 @@
 ##################################################################################################
 # MQTT client services
 ##################################################################################################
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{  .Chart.Name }}
-  labels:
-    app.kubernetes.io/managed-by: helm
-    meta.helm.sh/release-name: {{  .Chart.Name }}
-    meta.helm.sh/release-namespace: default
-    app: {{  .Chart.Name }}
-    service: {{  .Chart.Name }}
-spec:
-  selector:
-    app: {{  .Chart.Name }}
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: {{  .Chart.Name }}
-  labels:
-    app.kubernetes.io/managed-by: helm
-    meta.helm.sh/release-name: {{  .Chart.Name }}
-    meta.helm.sh/release-namespace: default
-    account: {{  .Chart.Name }}
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{  .Chart.Name }}
+#   labels:
+#     app.kubernetes.io/managed-by: helm
+#     meta.helm.sh/release-name: {{  .Chart.Name }}
+#     meta.helm.sh/release-namespace: default
+#     app: {{  .Chart.Name }}
+#     service: {{  .Chart.Name }}
+# spec:
+#   selector:
+#     app: {{  .Chart.Name }}
+# ---
+# apiVersion: v1
+# kind: ServiceAccount
+# metadata:
+#   name: {{  .Chart.Name }}
+#   labels:
+#     app.kubernetes.io/managed-by: helm
+#     meta.helm.sh/release-name: {{  .Chart.Name }}
+#     meta.helm.sh/release-namespace: default
+#     account: {{  .Chart.Name }}
 ---
 apiVersion: apps/v1
 kind: Deployment
