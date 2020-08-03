@@ -47,19 +47,10 @@ spec:
         app: {{  .Chart.Name }}
         version: {{  .Values.mqttclient.version }}
     spec:
-      serviceAccountName: {{  .Chart.Name }}
       containers:
       - name: {{  .Chart.Name }}
         image: {{ .Values.mqttclient.image.repository }}:{{ .Values.mqttclient.image.tag }}
         imagePullPolicy: {{ .Values.mqttclient.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.mqttclient.service.servicePort}}
-        volumeMounts:
-        - name: tmp
-          mountPath: /tmp
-      imagePullSecrets:
-        - name: {{ .Values.imagepullsecrets.name}}
-      volumes:
-      - name: tmp
-        emptyDir: {}
 ---

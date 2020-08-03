@@ -5,7 +5,7 @@ mqttclient:
   version: v1
   replicaCount: 1
   image:
-    repository: us.icr.io/prometeo/mqttclient
+    repository: uk.icr.io/prometeo-cluster/mqttclient
     tag: v1
     pullPolicy: IfNotPresent
   livenessProbe:
