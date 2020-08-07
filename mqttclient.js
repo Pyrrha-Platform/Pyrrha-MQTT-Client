@@ -1,6 +1,7 @@
 const fs = require('fs');
 var mqtt = require('mqtt');
 require('dotenv').config();
+
 var pemFile = fs.readFileSync(process.env.IOT_PEM);
 
 const client = mqtt.connect({
@@ -13,16 +14,22 @@ const client = mqtt.connect({
     cert: pemFile
 })
 
+console.log(`trying to connect to the server: ${process.env.IOT_HOST}`);
+
 client.on('connect', function (packet) {
     client.subscribe(process.env.IOT_TOPIC, function (err, packet) {
         if (err) {
+            console.log(`unable to connect to server: ${process.env.IOT_HOST}`);
             console.log(err);
+        } else {
+            console.log(`successfully connected to server ${process.env.IOT_HOST} on topic ${process.env.IOT_TOPIC}`);
         }
     })
 })
 
 client.on('message', function (topic, message) {
-    console.log(message.toString());
+    console.log(`recieved message: ${message.toString()}`);
+
 })
 
 client.on('error', function (err) {
@@ -32,3 +39,10 @@ client.on('error', function (err) {
 client.on('close', function () {
     console.log('connection closed');
 })
+
+// function insertDatabase(data) {
+//     const mariadb = require('mariadb');
+//     const pool = mariadb.createPool({ host: "172.30.208.213", user: process.env.DB_USER, connectionLimit: 5 });
+//     pool.getConnection()
+
+// }
