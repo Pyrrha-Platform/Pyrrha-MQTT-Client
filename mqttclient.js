@@ -14,8 +14,6 @@ const client = mqtt.connect({
     cert: pemFile
 })
 
-console.log('hey there!');
-
 console.log(`trying to connect to the server: ${process.env.IOT_HOST}`);
 
 client.on('connect', function (packet) {
@@ -29,8 +27,15 @@ client.on('connect', function (packet) {
     })
 })
 
-client.on('message', function (topic, message) {
-    console.log(`recieved message: ${message.toString()}`);
+client.on('message', function (topic, msg) {
+
+    msg = JSON.parse(msg.toString());
+
+    if (msg.id == "duck") {
+        console.log('received a duck!')
+        //convert insertdatabase into a promise so main program is not waiting
+        insertDatabase(msg);
+    }
 
 })
 
@@ -42,24 +47,34 @@ client.on('close', function () {
     console.log('connection closed!');
 })
 
+console.log('connecting to mariadb');
+const mariadb = require('mariadb');
+const { type } = require('os');
+const pool = mariadb.createPool({
+    host: process.env.MARIADB_HOST,
+    user: process.env.MARIADB_USERNAME,
+    password: process.env.MARIADB_PASSWORD,
+    database: 'prometeo',
+    connectionLimit: 5
+});
+
 function insertDatabase(data) {
-    const mariadb = require('mariadb');
-    const pool = mariadb.createPool({ host: "172.21.34.15", user: "root", connectionLimit: 5 });
+    console.log('inside insertDatabase function');
+    console.log(data);
     pool.getConnection()
-
-    if (data.deviceId.toLowerCase().includes("duck")){
-        // Duck payload is in format '26.30/43.00/18.58' (without quotes)
-        data = msg.payload.Payload.split('/');
-        temperature = parseFloat(data[0]);
-        humidity = parseFloat(data[1]);
-        co = parseFloat(data[2]);
-    } else {
-        temperature = msg.payload.Temperature;
-        humidity = msg.payload.Humidity;
-        co = msg.payload.CO;
-    }
-
-    // store in mariadb
+        .then(conn => {
+            console.log('successfully connected to the database service!');
+            conn.query("INSERT INTO metrics VALUES (?, ?, ?, ?, ?, ?)", [Math.floor(Math.random() * Math.floor(1000)), "duck", "1581346399955", data.temp, data.humidity, data.CO])
+                .then((res) => {
+                    console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
+                    conn.end();
+                }).catch(err => {
+                    //handle error
+                    console.log(err);
+                    conn.end();
+                })
+        }).catch(err => {
+            console.log('not connected');
+            console.log(err);
+        });
 }
-
-// insertDatabase({});
