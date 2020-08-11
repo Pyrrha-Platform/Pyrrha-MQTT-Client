@@ -14,6 +14,8 @@ const client = mqtt.connect({
     cert: pemFile
 })
 
+console.log('hey there!');
+
 console.log(`trying to connect to the server: ${process.env.IOT_HOST}`);
 
 client.on('connect', function (packet) {
@@ -37,12 +39,27 @@ client.on('error', function (err) {
 })
 
 client.on('close', function () {
-    console.log('connection closed');
+    console.log('connection closed!');
 })
 
-// function insertDatabase(data) {
-//     const mariadb = require('mariadb');
-//     const pool = mariadb.createPool({ host: "172.30.208.213", user: process.env.DB_USER, connectionLimit: 5 });
-//     pool.getConnection()
+function insertDatabase(data) {
+    const mariadb = require('mariadb');
+    const pool = mariadb.createPool({ host: "172.21.34.15", user: "root", connectionLimit: 5 });
+    pool.getConnection()
 
-// }
+    if (data.deviceId.toLowerCase().includes("duck")){
+        // Duck payload is in format '26.30/43.00/18.58' (without quotes)
+        data = msg.payload.Payload.split('/');
+        temperature = parseFloat(data[0]);
+        humidity = parseFloat(data[1]);
+        co = parseFloat(data[2]);
+    } else {
+        temperature = msg.payload.Temperature;
+        humidity = msg.payload.Humidity;
+        co = msg.payload.CO;
+    }
+
+    // store in mariadb
+}
+
+// insertDatabase({});

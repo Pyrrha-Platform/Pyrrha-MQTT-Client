@@ -40,16 +40,14 @@ spec:
   selector:
     matchLabels:
       app: {{  .Chart.Name }}
-      version: {{  .Values.mqttclient.version }}
   template:
     metadata:
       labels:
         app: {{  .Chart.Name }}
-        version: {{  .Values.mqttclient.version }}
     spec:
       containers:
       - name: {{  .Chart.Name }}
-        image: {{ .Values.mqttclient.image.repository }}:{{ .Values.mqttclient.image.tag }}
+        image: {{ .Values.mqttclient.image.repository }}
         imagePullPolicy: {{ .Values.mqttclient.image.pullPolicy }}
         ports:
         - containerPort: {{ .Values.mqttclient.service.servicePort}}
