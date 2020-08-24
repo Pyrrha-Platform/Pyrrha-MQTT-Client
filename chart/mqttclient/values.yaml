@@ -4,9 +4,9 @@ mqttclient:
   name: mqttclient
   version: v1
   replicaCount: 1
+  namespace: default
   image:
     repository: uk.icr.io/prometeo-cluster/mqttclient
-    tag: v5
     pullPolicy: Always
   livenessProbe:
     initialDelaySeconds: 30

@@ -1,14 +1,24 @@
 apiVersion: skaffold/v2beta6
 kind: Config
-build:
-  artifacts:
-  - image: uk.icr.io/prometeo-cluster/mqttclient
-deploy:
-  helm:
-    releases:
-    - name: mqttclient
-      chartPath: chart/mqttclient
-      artifactOverrides:
-        mqttclient:
-          image:
-            repository: uk.icr.io/prometeo-cluster/mqttclient
+
+profiles:
+  - name: test
+    activation:
+      - command: test
+    build:
+      artifacts:
+      - image: uk.icr.io/prometeo-cluster/mqttclient
+    deploy:
+      helm:
+        releases:
+        - name: mqttclient
+          chartPath: chart/mqttclient
+          artifactOverrides:
+            mqttclient:
+              image:
+                repository: uk.icr.io/prometeo-cluster/mqttclient
+          overrides:
+            mqttclient:
+              namespace: test
+        
+              
