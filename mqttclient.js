@@ -48,29 +48,6 @@ const asyncFunction = function () {
     }
 }
 
-// const asyncFunction2 = async () => {
-//     try {
-//         //need to add error checking on the topic itself. Handle case where topic is not present.
-//         await mqttClient.subscribe(process.env.IOT_TOPIC);
-//         logger.debug(`!!successfully connected to server ${process.env.IOT_HOST} on topic ${process.env.IOT_TOPIC}`);
-//         mqttClient.on('message', (topics, payload) => {
-//             var msg = JSON.parse(payload.toString());
-//             logger.debug(`got a message: ${JSON.stringify(msg.firefighter_id)}-${JSON.stringify(msg.device_id)}`);
-//             sendWSS(msg);
-
-//             //insert into database
-//             insertDatabase(msg);
-//         });
-//         //
-//         // This line doesn't run until the server responds to the publish
-//         // await mqttClient2.end();
-//         // This line doesn't run until the client has disconnected without error
-//     } catch (e) {
-//         // Do something about it!
-//         logger.error(e.stack);
-//         process.exit();
-//     }
-// }
 
 logger.debug('connecting to IoT platform ...')
 mqttClient.on("connect", asyncFunction);
