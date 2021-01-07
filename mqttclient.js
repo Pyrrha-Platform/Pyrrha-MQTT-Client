@@ -3,6 +3,7 @@ const fs = require('fs');
 var mqtt = require('mqtt');
 require('dotenv').config();
 
+console.log(`reading pem file from: ${process.env.IOT_PEM}`);
 var pemFile = fs.readFileSync(process.env.IOT_PEM);
 
 const { timeStamp } = require('console');
