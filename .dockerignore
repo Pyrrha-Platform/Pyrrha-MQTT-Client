@@ -1,4 +1,3 @@
-venv
-python3
-__pycache__/
 .env*
+node_modules
+npm-debug.log
