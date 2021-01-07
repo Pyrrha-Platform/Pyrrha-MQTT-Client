@@ -85,7 +85,7 @@ mqttClient.on('error', function (err) {
 
 
 function setupMariaDB() {
-    console.log('creating mariadb connection pool');
+    console.log(`creating mariadb connection pool on: ${process.env.MARIADB_HOST}`);
     const mariadb = require('mariadb');
     const { type } = require('os');
     const pool = mariadb.createPool({
@@ -96,6 +96,11 @@ function setupMariaDB() {
         database: 'prometeo',
         connectionLimit: 5
     });
+    if(pool && pool != null) {
+        console.log('finished creating mariadb coonection pool');
+    } else {
+        console.log('could not create connection to mariadb');
+    }
     return pool;
 }
 
