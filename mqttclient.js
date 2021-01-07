@@ -79,6 +79,7 @@ mqttClient.on('error', function (err) {
 
 
 function setupMariaDB() {
+    console.log('creating mariadb connection pool');
     const mariadb = require('mariadb');
     const { type } = require('os');
     const pool = mariadb.createPool({

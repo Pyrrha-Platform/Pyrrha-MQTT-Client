@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 .vscode
-.env
+.env*
 .env.client
 
 # IBM IoT cert
