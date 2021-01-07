@@ -24,6 +24,11 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          volumeMounts:
+            - name: ca-pemstore
+              mountPath: /etc/ssl/certs/messaging.pem
+              subPath: messaging.pem
+              readOnly: false
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
@@ -109,8 +114,12 @@ spec:
                   name: mqtt-client-secret
                   key: WS_PORT
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- if .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
-    {{- end }}
+            {{ toYaml .Values.resources | indent 12 }}
+                {{- if .Values.nodeSelector }}
+                  nodeSelector:
+            {{ toYaml .Values.nodeSelector | indent 8 }}
+                {{- end }}
+      volumes:
+        - name: ca-pemstore
+          configMap:
+            name: ca-pemstore
