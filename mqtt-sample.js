@@ -66,9 +66,9 @@ const timeMins = 1;
 client.on('connect', function (err) {
     logger.info('connnected!');
     publish(client);
-    // time = setInterval(function () {
-    //     publish(client);
-    // }, timeMins * 60000);
+    time = setInterval(function () {
+        publish(client);
+    }, timeMins * 300000);
 
 });
 

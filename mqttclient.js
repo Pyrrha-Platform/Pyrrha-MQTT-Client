@@ -94,6 +94,10 @@ function setupMariaDB() {
 
 
 function sendWSS(msg) {
+
+
+    // add type or real
+    msg.type = "REAL";
     // take out this code from. We should not connect everytime a message comes in
     var WSS = require('websocket').client;
     var webSocketClient = new WSS();
