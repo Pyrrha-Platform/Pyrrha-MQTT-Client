@@ -130,6 +130,9 @@ function sendWSS(msg) {
             // var data = { "fields": ["Bombero", "Estado", "Timestamp", "Temp", "Humidity", "CO"], "values": [msg.id, "Verde", time, msg.temp, msg.humidity, msg.CO] };
             console.log('sending msg');
             connection.sendUTF(JSON.stringify(msg));
+
+            // reason codes: https://tools.ietf.org/html/rfc6455#section-7.4.1
+            connection.close("1000", "Closing connection after sending message");
         }
     }));
 }
