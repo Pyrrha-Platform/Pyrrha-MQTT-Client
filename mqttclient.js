@@ -3,8 +3,14 @@ const fs = require('fs');
 var mqtt = require('mqtt');
 require('dotenv').config();
 
+console.log(`Reading pem file from: ${process.env.IOT_PEM}`);
+// purposely not checking for error here. The code fails if this file is not present
+// TODO: add code to check for secure connection
+
 var pemFile = fs.readFileSync(process.env.IOT_PEM);
 
+const clientID = process.env.IOT_CLIENTID + `-${Date.now()}`;
+console.log(`Connecting to ${process.env.IOT_HOST} as client id: ${clientID}`)
 const { timeStamp } = require('console');
 const mqttClient = mqtt.connect({
     host: process.env.IOT_HOST,
@@ -12,7 +18,7 @@ const mqttClient = mqtt.connect({
     username: process.env.IOT_USERNAME, //hello world, how are you?
     port: process.env.IOT_SECURE_PORT,
     password: process.env.IOT_PASSWORD,
-    clientId: process.env.IOT_CLIENTID,
+    clientId: clientID,
     cert: pemFile,
     keepalive: parseInt(process.env.IOT_KEEPALIVE)
 });
@@ -79,6 +85,7 @@ mqttClient.on('error', function (err) {
 
 
 function setupMariaDB() {
+    console.log(`creating mariadb connection pool on: ${process.env.MARIADB_HOST}`);
     const mariadb = require('mariadb');
     const { type } = require('os');
     const pool = mariadb.createPool({
@@ -89,6 +96,11 @@ function setupMariaDB() {
         database: 'prometeo',
         connectionLimit: 5
     });
+    if(pool && pool != null) {
+        console.log('finished creating mariadb coonection pool');
+    } else {
+        console.log('could not create connection to mariadb');
+    }
     return pool;
 }
 
@@ -122,6 +134,9 @@ function sendWSS(msg) {
             // var data = { "fields": ["Bombero", "Estado", "Timestamp", "Temp", "Humidity", "CO"], "values": [msg.id, "Verde", time, msg.temp, msg.humidity, msg.CO] };
             console.log('sending msg');
             connection.sendUTF(JSON.stringify(msg));
+
+            // reason codes: https://tools.ietf.org/html/rfc6455#section-7.4.1
+            connection.close("1000", "Closing connection after sending message");
         }
     }));
 }

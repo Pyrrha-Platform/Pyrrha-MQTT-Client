@@ -1,31 +1,125 @@
-##################################################################################################
-# MQTT client services
-##################################################################################################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{  .Chart.Name }}-{{  .Values.mqttclient.version }}
-  namespace: {{ .Values.mqttclient.namespace }}
+  name: {{ template "fullname" . }}
   labels:
-    app.kubernetes.io/managed-by: helm
-    meta.helm.sh/release-name: {{  .Chart.Name }}
-    meta.helm.sh/release-namespace: {{ .Values.mqttclient.namespace }}
-    app: {{  .Chart.Name }}
-    version: {{  .Values.mqttclient.version }}
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
-  replicas: {{  .Values.mqttclient.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{  .Chart.Name }}
+      app: {{ template "name" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{  .Chart.Name }}
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
     spec:
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}
       containers:
-      - name: {{  .Chart.Name }}
-        image: {{ .Values.mqttclient.image.repository }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        ports:
-        - containerPort: {{ .Values.mqttclient.service.servicePort}}
----
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          volumeMounts:
+            - name: ca-pemstore
+              mountPath: /etc/ssl/certs/messaging.pem
+              subPath: messaging.pem
+              readOnly: false
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          env:
+            - name: IOT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_HOST
+            - name: IOT_TOPIC
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_TOPIC
+            - name: IOT_PROTOCOL
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_PROTOCOL
+            - name: IOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_USERNAME
+            - name: IOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_PASSWORD
+            - name: IOT_SECURE_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_SECURE_PORT
+            - name: IOT_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_PORT
+            - name: IOT_CLIENTID
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_CLIENTID
+            - name: IOT_PEM
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_PEM
+            - name: IOT_KEEPALIVE
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: IOT_KEEPALIVE
+            - name: MARIADB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: MARIADB_HOST
+            - name: MARIADB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: MARIADB_USERNAME
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: MARIADB_PASSWORD
+            - name: MARIADB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: MARIADB_PORT
+            - name: WS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: WS_HOST
+            - name: WS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mqtt-client-secret
+                  key: WS_PORT
+          resources:
+            {{ toYaml .Values.resources | indent 12 }}
+                {{- if .Values.nodeSelector }}
+                  nodeSelector:
+            {{ toYaml .Values.nodeSelector | indent 8 }}
+                {{- end }}
+      volumes:
+        - name: ca-pemstore
+          configMap:
+            name: ca-pemstore

@@ -8,6 +8,16 @@ This repository contains the [Prometeo](https://github.com/Code-and-Response/Pro
 
 * To come
 
+Create pem config file
+```
+kubectl create configmap ca-pemstore --from-file messaging.pem 
+```
+
+add to deployment.yaml
+```
+volume and volumemounts
+```
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting Prometeo pull requests.
