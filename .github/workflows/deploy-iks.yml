@@ -13,6 +13,7 @@ env:
   GITHUB_SHA: ${{ github.sha }}
   IBM_CLOUD_API_KEY: ${{ secrets.IBM_CLOUD_API_KEY }}
   IBM_CLOUD_REGION: ${{ secrets.IBM_CLOUD_REGION }}
+  IBM_CLOUD_RESOURCE_GROUP: ${{ secrets.IBM_CLOUD_RESOURCE_GROUP }}
   ICR_REGION: ${{ secrets.ICR_REGION }}
   ICR_NAMESPACE: ${{ secrets.ICR_NAMESPACE }}
   REGISTRY_HOSTNAME: ${{ secrets.REGISTRY_HOSTNAME }}
@@ -38,6 +39,7 @@ jobs:
       - uses: call-for-code/build-push-deploy@main
         with:
           cloud-api-key: $IBM_CLOUD_API_KEY
+          cloud-resource-group: $IBM_CLOUD_RESOURCE_GROUP
           cloud-region: $IBM_CLOUD_REGION
           icr-region: $ICR_REGION
           deployment-name: $IMAGE_NAME-$CONTAINER_NAME
