@@ -3,6 +3,7 @@
 name: Build and Deploy to IKS
 
 on:
+  workflow_dispatch:
   push: # Execute on every push and successful merge on the master branch
     branches:
       - master
