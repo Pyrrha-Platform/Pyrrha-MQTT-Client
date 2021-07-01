@@ -35,7 +35,11 @@ jobs:
         uses: softprops/turnstyle@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: create pem file
+        env:
+          IOT_PEM_CERT: ${{ secrets.IOT_PEM_CERT }}
+        run: |
+          echo "$IOT_PEM_CERT" > messaging.pem
       - uses: call-for-code/build-push-deploy@v2
         with:
           cloud-api-key: $IBM_CLOUD_API_KEY
