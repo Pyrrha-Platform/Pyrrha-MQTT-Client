@@ -36,7 +36,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: call-for-code/build-push-deploy@main
+      - uses: call-for-code/build-push-deploy@v2
         with:
           cloud-api-key: $IBM_CLOUD_API_KEY
           cloud-resource-group: $IBM_CLOUD_RESOURCE_GROUP
