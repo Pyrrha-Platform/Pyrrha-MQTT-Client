@@ -49,5 +49,5 @@ jobs:
           image-name: $IMAGE_NAME
           k8s-cluster-name: $IKS_CLUSTER
           k8s-cluster-namespace: $K8S_CLUSTER_NAMESPACE
-          registry-hostname: us.icr.io
+          registry-hostname: $REGISTRY_HOSTNAME
           working-directory: "."
