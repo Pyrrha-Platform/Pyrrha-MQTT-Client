@@ -4,7 +4,7 @@ This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha)
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/badge/Join-Slack-blue)](https://callforcode.org/slack)
 
-## Technologies used
+## Technologies used 
 1. [Node.js](https://nodejs.org/en/)
 2. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 3. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
