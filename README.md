@@ -8,7 +8,7 @@ This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha)
 1. [Node.js](https://nodejs.org/en/)
 2. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 3. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
-## Prerequisites
+## Prerequisites 
 You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
 1. [IBM Internet of Things Platform](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT.md) 
 2. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
