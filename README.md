@@ -1,22 +1,89 @@
 # Pyrrha MQTT client
 
-This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that sends [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App).
+This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the [IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
 
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/badge/Join-Slack-blue)](https://callforcode.org/slack)
 
-## Setting up the solution
+## Technologies used
+1. [Node.js](https://nodejs.org/en/)
+2. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+3. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
+## Prerequisites
+You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
+1. [IBM Internet of Things Platform](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT.md) 
+2. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
+3. [Pyrrha Websocket Server](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server)
 
-* To come
+## Run locally with Node.js
 
-Create pem config file
-```
-kubectl create configmap ca-pemstore --from-file messaging.pem 
-```
+You can run this solution locally as follows:
 
-add to deployment.yaml
-```
-volume and volumemounts
-```
+1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform` section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT_SETUP.md). The `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be obtained from the IoT platform. The `application_name` can be any string.
+
+   ```
+    IOT_HOST=
+    IOT_TOPIC=
+    IOT_PROTOCOL=
+    IOT_USERNAME=
+    IOT_PASSWORD=
+    IOT_SECURE_PORT=
+    IOT_PORT=
+    IOT_CLIENTID=
+    IOT_PEM=
+   ```
+
+   The following values are used to store data in the database:
+
+   ```
+   MARIADB_HOST=
+   MARIADB_USERNAME=
+   MARIADB_PASSWORD=
+   ```
+
+   The following variables are used to send data to the WebSocket Server.
+
+   ```
+   WS_HOST=
+   WS_PORT=
+   ```
+
+2. Install the dependencies
+   ```
+   npm install
+   ```
+3. Start the server
+   ```
+   npm start
+   ```
+
+## Run locally with Docker
+
+1. Build the image
+   ```
+   docker build . -t mqttclient
+   ```
+2. Run the image and pass the .env file as environment variables
+   ```
+   docker run --env-file .env mqttclient
+   ```
+   You do not need to expose any port.
+3. You should see the application logs
+   ```
+   > mqtt-client@1.0.0 start /home/upkarlidder/Documents/upkar-code/call-for-code/pyrrah/Pyrrha-MQTT-Client
+   > node mqttclient.js
+
+   Reading pem file from: messaging.pem
+   Connecting to p0g2ka.messaging.internetofthings.ibmcloud.com as client id: a:p0g2ka:my_app-1626211745471
+   creating mariadb connection pool on: localhost
+   finished creating mariadb coonection pool
+   2021-07-13 14:29:05 debug [mqttclient.js]: connecting to IoT platform ...
+   2021-07-13 14:29:06 debug [mqttclient.js]: !!successfully connected to server p0g2ka.messaging.internetofthings.ibmcloud.com
+   2021-07-13 14:29:06 debug [mqttclient.js]: !!successfully subscribed to topic: iot-2/type/+/id/+/evt/+/fmt/+
+   ```
+
+## Run on Kubernetes
+
+You can run this application on Kubernetes using the charts provided in the `chart` directory. The repository also provides a skaffold.yaml file that enables quick building and pushing for faster development. Read more about Skaffold [here](https://skaffold.dev/). There are two profiles provided, `test` and `default`. To run the solution on the `test` namespace use: ` skaffold dev -p test `
 
 ## Contributing
 
