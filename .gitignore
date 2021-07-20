@@ -12,6 +12,7 @@
 .vscode
 .env*
 .env.client
+!.env.docker
 
 # IBM IoT cert
 messaging.pem

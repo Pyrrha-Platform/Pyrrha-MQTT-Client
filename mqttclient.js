@@ -93,7 +93,7 @@ function setupMariaDB() {
         port: process.env.MARIADB_PORT,
         user: process.env.MARIADB_USERNAME,
         password: process.env.MARIADB_PASSWORD,
-        database: 'prometeo',
+        database: process.env.MARIADB_DB,
         connectionLimit: 5
     });
     if(pool && pool != null) {
