@@ -1,8 +1,8 @@
 # Pyrrha MQTT client
 
-This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the [IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
-
 [![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/static/v1?label=Slack&message=%23prometeo-pyrrha&color=blue)](https://callforcode.org/slack)
+
+This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the [IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
 
 ## Technologies used 
 1. [Node.js](https://nodejs.org/en/)
