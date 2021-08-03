@@ -4,13 +4,17 @@
 
 This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the [IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
 
-## Technologies used 
+## Technologies used
+
 1. [Node.js](https://nodejs.org/en/)
 2. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 3. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
-## Prerequisites 
+
+## Prerequisites
+
 You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
-1. [IBM Internet of Things Platform](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT.md) 
+
+1. [IBM Internet of Things Platform](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT.md)
 2. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
 3. [Pyrrha Websocket Server](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server)
 
@@ -68,6 +72,7 @@ You can run this solution locally as follows:
    ```
    You do not need to expose any port.
 3. You should see the application logs
+
    ```
    > mqtt-client@1.0.0 start /home/upkarlidder/Documents/upkar-code/call-for-code/pyrrah/Pyrrha-MQTT-Client
    > node mqttclient.js
@@ -83,7 +88,7 @@ You can run this solution locally as follows:
 
 ## Run on Kubernetes
 
-You can run this application on Kubernetes using the charts provided in the `chart` directory. The repository also provides a skaffold.yaml file that enables quick building and pushing for faster development. Read more about Skaffold [here](https://skaffold.dev/). There are two profiles provided, `test` and `default`. To run the solution on the `test` namespace use: ` skaffold dev -p test `
+You can run this application on Kubernetes using the charts provided in the `chart` directory. The repository also provides a skaffold.yaml file that enables quick building and pushing for faster development. Read more about Skaffold [here](https://skaffold.dev/). There are two profiles provided, `test` and `default`. To run the solution on the `test` namespace use: `skaffold dev -p test`
 
 ## Contributing
 
