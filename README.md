@@ -22,7 +22,7 @@ You need to have the following services running to use the MQTT client. The IoT 
 
 You can run this solution locally as follows:
 
-1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform` section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT_SETUP.md). The `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be obtained from the IoT platform. The `application_name` can be any string.
+1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform` section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IOT_SETUP.md). The `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be obtained from the IoT platform. The `application_name` can be any string.
 
    ```
     IOT_HOST=
