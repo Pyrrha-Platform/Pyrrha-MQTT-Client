@@ -23,6 +23,7 @@ env:
   K8S_CLUSTER_NAMESPACE: ${{ secrets.K8S_CLUSTER_NAMESPACE }}
   IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
   CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
+  IKS_DEPLOYMENT_NAME: ${{ secrets.IKS_DEPLOYMENT_NAME }}
 
 jobs:
   setup-build-publish-deploy:
@@ -48,7 +49,7 @@ jobs:
           cloud-resource-group: $IBM_CLOUD_RESOURCE_GROUP
           cloud-region: eu-gb
           icr-region: $ICR_REGION
-          deployment-name: $IMAGE_NAME-$CONTAINER_NAME
+          deployment-name: $IKS_DEPLOYMENT_NAME
           container-name: $CONTAINER_NAME
           github-sha: $GITHUB_SHA
           icr-namespace: $ICR_NAMESPACE
