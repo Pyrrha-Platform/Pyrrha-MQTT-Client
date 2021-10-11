@@ -47,7 +47,7 @@ jobs:
         with:
           cloud-api-key: $IBM_CLOUD_API_KEY
           cloud-resource-group: $IBM_CLOUD_RESOURCE_GROUP
-          cloud-region: eu-gb
+          cloud-region: $IBM_CLOUD_REGION
           icr-region: $ICR_REGION
           deployment-name: $IKS_DEPLOYMENT_NAME
           container-name: $CONTAINER_NAME
