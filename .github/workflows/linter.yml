@@ -20,4 +20,4 @@ jobs:
         uses: actions/setup-node@v1
       - run: npm install -g dockerfilelint prettier@2.3.0
       - run: dockerfilelint Dockerfile
-      - run: prettier --check .
+      - run: prettier --check ./**/*.js
