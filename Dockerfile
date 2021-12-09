@@ -1,20 +1,20 @@
-FROM node:14 as build
+FROM node:16 as build
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --only=production
 
-FROM node:14-alpine@sha256:b2da3316acdc2bec442190a1fe10dc094e7ba4121d029cb32075ff59bb27390a
+FROM node:16-alpine@sha256:a9b9cb880fa429b0bea899cd3b1bc081ab7277cc97e6d2dcd84bd9753b2027e1
 
 # ===== Fix any security vulnerability according to Snyk ===
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache \
-    apk-tools=2.12.7-r3
+    apk-tools~=2.12
 # hadolint disable=DL3059
 RUN apk add --no-cache \
-    dumb-init=1.2.2-r1 \
-    libcrypto1.1=1.1.1l-r4 \
-    busybox=1.31.1-r10 
+    dumb-init~=1.2 \
+    libcrypto1.1~=1.1 \
+    busybox~=1.33 
 # ============================================================
 
 ENV NODE_ENV production
