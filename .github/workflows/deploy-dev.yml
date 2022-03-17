@@ -47,7 +47,7 @@ jobs:
           icr-region: $ICR_REGION
           cloud-resource-group: $IBM_CLOUD_RESOURCE_GROUP
           deployment-name: $IKS_DEPLOYMENT_NAME
-          container-name: rulesdecision
+          container-name: $CONTAINER_NAME
           github-sha: $GITHUB_SHA
           icr-namespace: $ICR_NAMESPACE
           image-name: $IMAGE_NAME
