@@ -3,24 +3,19 @@ const fs = require("fs");
 var mqtt = require("mqtt");
 require("dotenv").config();
 
-console.log(`Reading pem file from: ${process.env.IOT_PEM}`);
-// purposely not checking for error here. The code fails if this file is not present
 // TODO: add code to check for secure connection
 
-var pemFile = fs.readFileSync(process.env.IOT_PEM);
-
-const clientID = process.env.IOT_CLIENTID + `-${Date.now()}`;
+const clientID = process.env.IOT_CLIENTID;
 console.log(`Connecting to ${process.env.IOT_HOST} as client id: ${clientID}`);
 const { timeStamp } = require("console");
+
 const mqttClient = mqtt.connect({
   host: process.env.IOT_HOST,
   protocol: process.env.IOT_PROTOCOL,
-  username: process.env.IOT_USERNAME, //hello world, how are you?
   port: process.env.IOT_SECURE_PORT,
-  password: process.env.IOT_PASSWORD,
   clientId: clientID,
-  cert: pemFile,
-  keepalive: parseInt(process.env.IOT_KEEPALIVE),
+  username: process.env.IOT_USERNAME,
+  password: process.env.IOT_PASSWORD,
 });
 
 const pool = setupMariaDB();

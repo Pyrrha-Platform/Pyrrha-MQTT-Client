@@ -14,9 +14,13 @@ This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha)
 
 You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
 
-1. [IBM Internet of Things Platform](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IoT.md)
+1. [Pyrrha MQTT Server (VerneMQ)](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttserver)
 2. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
 3. [Pyrrha Websocket Server](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server)
+
+## MQTT Server integration
+
+In order for the MQTT Client to communicate with the MQTT broker, information for the client should be added to VerneMQ's database table. The instructions for this can be found [here](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttclient).
 
 ## Run locally with Node.js
 
