@@ -11,11 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cron": "^1.8.2",
-    "dotenv": "^8.2.0",
-    "mariadb": "^2.5.1",
-    "mqtt": "^4.1.0",
-    "websocket": "^1.0.31",
-    "winston": "^3.3.3"
+    "cron": "^3.1.7",
+    "dotenv": "^16.4.5",
+    "mariadb": "^3.3.2",
+    "mqtt": "^5.10.1",
+    "websocket": "^1.0.35",
+    "winston": "^3.15.0"
   }
 }
