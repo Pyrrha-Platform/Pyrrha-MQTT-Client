@@ -1,4 +1,4 @@
-FROM node:16 as build
+FROM node:16 AS build
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm ci --only=production
@@ -17,7 +17,7 @@ RUN apk add --no-cache \
     busybox~=1.33 
 # ============================================================
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN mkdir -p /usr/src/app && chown node:node /usr/src/app
 
