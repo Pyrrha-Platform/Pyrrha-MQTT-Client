@@ -2,7 +2,7 @@ name: "Test Docker build"
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   docker-build:
@@ -16,6 +16,6 @@ jobs:
       - name: Docker Lint
         run: |
           docker run --rm -i hadolint/hadolint < Dockerfile
-          
+
       - name: Docker Build
         run: docker build -t mqtt-client .

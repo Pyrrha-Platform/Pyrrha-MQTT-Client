@@ -7,16 +7,16 @@ This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha)
 ## Technologies used
 
 1. [Node.js](https://nodejs.org/en/)
-2. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
-3. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
+1. [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+1. [WebSocket Server](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers)
 
 ## Prerequisites
 
 You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
 
 1. [Pyrrha MQTT Server (VerneMQ)](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttserver)
-2. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
-3. [Pyrrha Websocket Server](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server)
+1. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
+1. [Pyrrha Websocket Server](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server)
 
 ## MQTT Server integration
 
@@ -28,7 +28,7 @@ You can run this solution locally as follows:
 
 1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform` section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IOT_SETUP.md). The `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be obtained from the IoT platform. The `application_name` can be any string.
 
-   ```
+   ```sh
     IOT_HOST=
     IOT_TOPIC=
     IOT_PROTOCOL=
@@ -42,7 +42,7 @@ You can run this solution locally as follows:
 
    The following values are used to store data in the database:
 
-   ```
+   ```sh
    MARIADB_HOST=
    MARIADB_USERNAME=
    MARIADB_PASSWORD=
@@ -50,34 +50,41 @@ You can run this solution locally as follows:
 
    The following variables are used to send data to the WebSocket Server.
 
-   ```
+   ```sh
    WS_HOST=
    WS_PORT=
    ```
 
-2. Install the dependencies
-   ```
+1. Install the dependencies
+
+   ```sh
    npm install
    ```
-3. Start the server
-   ```
+
+1. Start the server
+
+   ```sh
    npm start
    ```
 
 ## Run locally with Docker
 
 1. Build the image
-   ```
+
+   ```sh
    docker build . -t mqttclient
    ```
-2. Run the image and pass the .env file as environment variables
-   ```
+
+1. Run the image and pass the .env file as environment variables
+
+   ```sh
    docker run --env-file .env mqttclient
    ```
-   You do not need to expose any port.
-3. You should see the application logs
 
-   ```
+   You do not need to expose any port.
+1. You should see the application logs
+
+   ```sh
    > mqtt-client@1.0.0 start /home/upkarlidder/Documents/upkar-code/call-for-code/pyrrah/Pyrrha-MQTT-Client
    > node mqttclient.js
 
