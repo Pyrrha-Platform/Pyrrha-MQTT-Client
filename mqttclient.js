@@ -165,7 +165,7 @@ function insertDatabase(data) {
       // clau - was coming from node-red message._id. Changed to time + data.id
 
       //             +-----------------+----------+---------------+-------------+----------+------+
-      // | clau            | SensorID | timestamp     | temperature | humidity | CO   |
+      // | clau            | DeviceID | timestamp     | temperature | humidity | CO   |
       // +-----------------+----------+---------------+-------------+----------+------+
       // | 10001e1c.9aa502 | 0006     | 1581342069129 |          26 |       40 |   16 |
 
@@ -176,13 +176,13 @@ function insertDatabase(data) {
       //     var timestamp_mins = new Date(new Date(data.device_timestamp).setSeconds(0)).toISOString();
 
       /*
-                INSERT INTO prometeo.firefighter_sensor_log
+                INSERT INTO prometeo.firefighter_device_log
 (timestamp_mins, firefighter_id, device_id, device_battery_level, temperature, humidity, carbon_monoxide, nitrogen_dioxide, formaldehyde, acrolein, benzene, device_timestamp, device_status_LED)
 VALUES('', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
             */
       conn
         .query(
-          "INSERT INTO firefighter_sensor_log (timestamp_mins, firefighter_id, device_id, device_battery_level, temperature, humidity, carbon_monoxide, nitrogen_dioxide, formaldehyde, acrolein, benzene, device_timestamp) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)",
+          "INSERT INTO firefighter_device_log (timestamp_mins, firefighter_id, device_id, device_battery_level, temperature, humidity, carbon_monoxide, nitrogen_dioxide, formaldehyde, acrolein, benzene, device_timestamp) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?)",
           [
             new Date(timestamp),
             data.firefighter_id,
