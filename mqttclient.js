@@ -175,6 +175,13 @@ function insertDatabase(data) {
       //     var device_timestamp =  new Date(data.device_timestamp).toISOString();
       //     var timestamp_mins = new Date(new Date(data.device_timestamp).setSeconds(0)).toISOString();
 
+      // Extract numeric device ID from full device string (e.g., "Prometeo:00:00:00:00:00:01" -> 1)
+      var numericDeviceId = data.device_id;
+      if (typeof data.device_id === 'string' && data.device_id.includes('Prometeo:')) {
+        var lastDigits = data.device_id.split(':').pop();
+        numericDeviceId = parseInt(lastDigits, 10);
+      }
+
       /*
                 INSERT INTO prometeo.firefighter_device_log
 (timestamp_mins, firefighter_id, device_id, device_battery_level, temperature, humidity, carbon_monoxide, nitrogen_dioxide, formaldehyde, acrolein, benzene, device_timestamp, device_status_led)
@@ -186,7 +193,7 @@ VALUES('', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
           [
             new Date(timestamp),
             data.firefighter_id,
-            data.device_id,
+            numericDeviceId,
             data.device_battery_level,
             data.temperature,
             data.humidity,
