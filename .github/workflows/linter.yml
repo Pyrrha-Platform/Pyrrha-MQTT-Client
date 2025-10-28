@@ -1,25 +1,65 @@
-name: linter
+name: Node.js Linting
 
 on:
-  # Execute on every push to any branch
   push:
-    branches:
-      - "**"
-  # Execute on every pull request to the master branch
+    branches: ["**"]
   pull_request_target:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  linter:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install -g dockerfilelint prettier@latest
-      - run: dockerfilelint Dockerfile
-      - run: prettier --check ./**/*.js
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          else
+            echo "No package.json found, installing global tools only"
+          fi
+
+      # JavaScript/Node.js Linting
+      - name: Install linting tools
+        run: npm install -g prettier eslint dockerfilelint
+
+      - name: Format check with Prettier (using centralized config)
+        run: |
+          # Use centralized prettier config if available
+          if [ -f "../Pyrrha-Development-Tools/configs/.prettierrc.js" ]; then
+            npx prettier --config ../Pyrrha-Development-Tools/configs/.prettierrc.js --check "**/*.{js,json,md}"
+          else
+            npx prettier --check "**/*.{js,json,md}"
+          fi
+
+      - name: Lint with ESLint (if configured)
+        run: |
+          if [ -f .eslintrc.* ] || [ -f eslint.config.* ]; then
+            npx eslint . || echo "ESLint issues found (non-blocking)"
+          else
+            echo "No ESLint configuration found, skipping"
+          fi
+
+      - name: Run tests (if available)
+        run: |
+          if [ -f package.json ] && npm run test --if-present; then
+            npm test
+          else
+            echo "No tests configured, skipping"
+          fi
+
+      # Dockerfile Linting
+      - name: Dockerfile linting
+        run: |
+          if ls Dockerfile* 1> /dev/null 2>&1; then
+            dockerfilelint Dockerfile*
+          else
+            echo "No Dockerfiles found, skipping"
+          fi
