@@ -39,6 +39,14 @@ const asyncFunction = function () {
         )}-${JSON.stringify(msg.device_id)}`
       );
       logger.debug(JSON.stringify(msg));
+
+      // Parse device ID to numeric format for consistency between WebSocket and Database
+      if (typeof msg.device_id === 'string' && msg.device_id.includes('Prometeo:')) {
+        var lastDigits = msg.device_id.split(':').pop();
+        msg.device_id = parseInt(lastDigits, 10);
+        logger.debug(`Parsed device_id to numeric: ${msg.device_id}`);
+      }
+
       sendWSS(msg);
 
       //insert into database
@@ -175,12 +183,8 @@ function insertDatabase(data) {
       //     var device_timestamp =  new Date(data.device_timestamp).toISOString();
       //     var timestamp_mins = new Date(new Date(data.device_timestamp).setSeconds(0)).toISOString();
 
-      // Extract numeric device ID from full device string (e.g., "Prometeo:00:00:00:00:00:01" -> 1)
+      // Device ID should already be numeric from MQTT message parsing
       var numericDeviceId = data.device_id;
-      if (typeof data.device_id === 'string' && data.device_id.includes('Prometeo:')) {
-        var lastDigits = data.device_id.split(':').pop();
-        numericDeviceId = parseInt(lastDigits, 10);
-      }
 
       /*
                 INSERT INTO prometeo.firefighter_device_log
