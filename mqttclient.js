@@ -41,10 +41,13 @@ const asyncFunction = function () {
       logger.debug(JSON.stringify(msg));
 
       // Parse device ID to numeric format for consistency between WebSocket and Database
+      // but preserve the original device name for display purposes
       if (typeof msg.device_id === 'string' && msg.device_id.includes('Prometeo:')) {
+        var originalDeviceName = msg.device_id;
         var lastDigits = msg.device_id.split(':').pop();
         msg.device_id = parseInt(lastDigits, 10);
-        logger.debug(`Parsed device_id to numeric: ${msg.device_id}`);
+        msg.device_name = originalDeviceName;
+        logger.debug(`Parsed device_id to numeric: ${msg.device_id}, preserved device_name: ${msg.device_name}`);
       }
 
       sendWSS(msg);
