@@ -1,8 +1,14 @@
 # Pyrrha MQTT client
 
-[![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![Slack](https://img.shields.io/static/v1?label=Slack&message=%23prometeo-pyrrha&color=blue)](https://callforcode.org/slack)
+[![License](https://img.shields.io/badge/License-Apache2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Slack](https://img.shields.io/static/v1?label=Slack&message=%23prometeo-pyrrha&color=blue)](https://callforcode.org/slack)
 
-This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the [mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the [IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
+This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha) solution MQTT
+client that receives [device](https://github.com/Pyrrha-Platform/Pyrrha-Firmware) readings from the
+[mobile app](https://github.com/Pyrrha-Platform/Pyrrha-Mobile-App) via the
+[IBM IoT Platform](https://cloud.ibm.com/catalog/services/internet-of-things-platform). The service
+then stores the data in the [database](https://github.com/Pyrrha-Platform/Pyrrha-Database) and also
+sends it to the [WebSocket service](https://github.com/Pyrrha-Platform/Pyrrha-WebSocket-Server).
 
 ## Technologies used
 
@@ -12,7 +18,8 @@ This repository contains the [Pyrrha](https://github.com/Pyrrha-Platform/Pyrrha)
 
 ## Prerequisites
 
-You need to have the following services running to use the MQTT client. The IoT platform runs on IBM Cloud. The database and websocket services can be run locally using Docker.
+You need to have the following services running to use the MQTT client. The IoT platform runs on IBM
+Cloud. The database and websocket services can be run locally using Docker.
 
 1. [Pyrrha MQTT Server (VerneMQ)](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttserver)
 1. [Pyrrha Database Service](https://github.com/Pyrrha-Platform/Pyrrha-Database)
@@ -20,13 +27,19 @@ You need to have the following services running to use the MQTT client. The IoT 
 
 ## MQTT Server integration
 
-In order for the MQTT Client to communicate with the MQTT broker, information for the client should be added to VerneMQ's database table. The instructions for this can be found [here](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttclient).
+In order for the MQTT Client to communicate with the MQTT broker, information for the client should
+be added to VerneMQ's database table. The instructions for this can be found
+[here](https://github.com/Pyrrha-Platform/Pyrrha-Deployment-Configurations/blob/main/DOCKER_COMPOSE.md#pyrrha-mqttclient).
 
 ## Run locally with Node.js
 
 You can run this solution locally as follows:
 
-1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform` section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IOT_SETUP.md). The `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be obtained from the IoT platform. The `application_name` can be any string.
+1. Copy `.env.sample` to `.env` and fill out the values. The following values can be obtained from
+   the IBM IoT platform as explained under the `Connect an application to IBM Watson IoT Platform`
+   section [here](https://github.com/Pyrrha-Platform/Pyrrha/blob/main/WATSON_IOT_SETUP.md). The
+   `IOT_CLIENTID` needs to be of the format `a:{orgId}:{application_name}`. The `orgId` can be
+   obtained from the IoT platform. The `application_name` can be any string.
 
    ```sh
     IOT_HOST=
@@ -82,6 +95,7 @@ You can run this solution locally as follows:
    ```
 
    You do not need to expose any port.
+
 1. You should see the application logs
 
    ```sh
@@ -99,11 +113,16 @@ You can run this solution locally as follows:
 
 ## Run on Kubernetes
 
-You can run this application on Kubernetes using the charts provided in the `chart` directory. The repository also provides a skaffold.yaml file that enables quick building and pushing for faster development. Read more about Skaffold [here](https://skaffold.dev/). There are two profiles provided, `test` and `default`. To run the solution on the `test` namespace use: `skaffold dev -p test`
+You can run this application on Kubernetes using the charts provided in the `chart` directory. The
+repository also provides a skaffold.yaml file that enables quick building and pushing for faster
+development. Read more about Skaffold [here](https://skaffold.dev/). There are two profiles
+provided, `test` and `default`. To run the solution on the `test` namespace use:
+`skaffold dev -p test`
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting Pyrrha pull requests.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process
+for submitting Pyrrha pull requests.
 
 ## License
 
