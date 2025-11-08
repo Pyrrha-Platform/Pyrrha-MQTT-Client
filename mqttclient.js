@@ -19,6 +19,10 @@ const mqttClient = mqtt.connect({
 const pool = setupMariaDB();
 let connection;
 
+// Maintain a persistent websocket connection
+let webSocketConnection = null;
+let isConnecting = false;
+
 const asyncFunction = function () {
   try {
     logger.debug(`!!successfully connected to server ${process.env.IOT_HOST}`);
@@ -72,6 +76,9 @@ const asyncFunction = function () {
 logger.debug('connecting to IoT platform ...');
 mqttClient.on('connect', asyncFunction);
 
+// Initialize persistent websocket connection
+initializeWebSocketConnection();
+
 mqttClient.on('close', function (err) {
   if (err) {
     logger.error(err);
@@ -117,13 +124,15 @@ function setupMariaDB() {
   return pool;
 }
 
-function sendWSS(msg) {
-  // add type or real
-  msg.type = 'REAL';
-  // take out this code from. We should not connect everytime a message comes in
+function initializeWebSocketConnection() {
+  if (isConnecting || (webSocketConnection && webSocketConnection.connected)) {
+    return;
+  }
+
+  isConnecting = true;
   const WSS = require('websocket').client;
   const webSocketClient = new WSS();
-  // webSocketClient.connect(`ws://${process.env.WS_HOST}:${process.env.WS_PORT}`, 'echo-protocol');
+  
   webSocketClient.connect(
     `ws://${process.env.WS_HOST}:${process.env.WS_PORT}`,
     'echo-protocol'
@@ -134,27 +143,48 @@ function sendWSS(msg) {
       `unable to connect to websocketserver: ${process.env.WS_HOST}:${process.env.WS_PORT}` +
         error.toString()
     );
+    isConnecting = false;
+    // Retry connection after 5 seconds
+    setTimeout(initializeWebSocketConnection, 5000);
   });
 
   webSocketClient.on('connect', (connection) => {
-    logger.debug('WebSocket Client Connected');
+    logger.debug('WebSocket Client Connected - Persistent Connection');
+    webSocketConnection = connection;
+    isConnecting = false;
+
     connection.on('error', function (error) {
       logger.debug('Connection Error: ' + error.toString());
+      webSocketConnection = null;
+      // Retry connection after error
+      setTimeout(initializeWebSocketConnection, 5000);
     });
+    
     connection.on('close', function () {
-      logger.debug('echo-protocol Connection Closed');
+      logger.debug('echo-protocol Connection Closed - Will Reconnect');
+      webSocketConnection = null;
+      // Reconnect after close
+      setTimeout(initializeWebSocketConnection, 2000);
     });
-
-    if (connection.connected) {
-      // var time = Math.floor(Date.now() / 1000);
-      // var data = { "fields": ["Bombero", "Estado", "Timestamp", "Temp", "Humidity", "CO"], "values": [msg.id, "Verde", time, msg.temp, msg.humidity, msg.CO] };
-      console.log('sending msg');
-      connection.sendUTF(JSON.stringify(msg));
-
-      // reason codes: https://tools.ietf.org/html/rfc6455#section-7.4.1
-      connection.close('1000', 'Closing connection after sending message');
-    }
   });
+}
+
+function sendWSS(msg) {
+  // add type or real
+  msg.type = 'REAL';
+  
+  // Initialize connection if needed
+  if (!webSocketConnection || !webSocketConnection.connected) {
+    initializeWebSocketConnection();
+    // Queue message to send once connected
+    setTimeout(() => sendWSS(msg), 1000);
+    return;
+  }
+
+  if (webSocketConnection && webSocketConnection.connected) {
+    console.log('sending msg via persistent connection');
+    webSocketConnection.sendUTF(JSON.stringify(msg));
+  }
 }
 
 function _getUTCTimeStamp(timestamp) {
